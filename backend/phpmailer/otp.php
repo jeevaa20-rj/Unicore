@@ -7,8 +7,14 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader (created by composer, not included with PHPMailer)
 require 'vendor/autoload.php';
-$name = $_POST['name'];
+session_start();
+
 $email = $_POST['email'];
+$otp = random_int(100000, 999999);
+
+// Store OTP in session
+$_SESSION['otp'] = $otp;
+$_SESSION['email'] = $email;
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
@@ -23,8 +29,8 @@ try {
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('nelanelaxshan@gmail.com', 'nela');
-    $mail->addAddress('aranisivasakthivel21@gmail.com');     //Add a recipient
+    $mail->setFrom('nelanelaxshan@gmail.com', 'registartion system');
+    $mail->addAddress($_SESSION['email']);     //Add a recipient
     //  $mail->addAddress('Arani');               //Name is optional
     // $mail->addReplyTo('info@example.com', 'Information');
     // $mail->addCC('cc@example.com');
@@ -36,8 +42,8 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Sample mail test';
-    $mail->Body    = 'Name:' . $name . 'Email:' . $email;
+    $mail->Subject = 'OTP Verification';
+    $mail->Body    = "Your OTP is: $otp";
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
