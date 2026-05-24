@@ -35,6 +35,7 @@ class Login extends Dbh {
         if($result->num_rows > 0){
 
             $user = $result->fetch_assoc();
+            
 
             // Verify password
             if(password_verify($password, $user['password'])){
