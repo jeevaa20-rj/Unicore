@@ -1,0 +1,17 @@
+{
+    "name": "jeeva/phpmailer",
+    "autoload": {
+        "psr-4": {
+            "Jeeva\\Phpmailer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jeevaa20-rj",
+            "email": "jeevaa200320@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
+}
