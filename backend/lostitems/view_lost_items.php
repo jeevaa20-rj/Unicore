@@ -34,7 +34,7 @@ $result = $lost->getItems();
 
     <!-- IMAGE (SAFE CHECK) -->
     <?php if(!empty($row['item_image'])) { ?>
-    <img src="<?php echo $row['item_image']; ?>" width="150">
+    <img src="../uploads/<?php echo basename($row['item_image']); ?>" width="150">
 <?php } else { ?>
     <p>No image</p>
 <?php } ?>
