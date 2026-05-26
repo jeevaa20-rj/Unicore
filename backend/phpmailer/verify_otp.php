@@ -1,7 +1,7 @@
 <?php
 require_once 'Dbh.php';
 
-// connect database
+
 $db = new Dbh();
 $conn = $db->connect();
 
