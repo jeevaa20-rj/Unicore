@@ -21,7 +21,7 @@ if(isset($_POST['submit'])){
     $imageName = $_FILES['image']['name'];
     $tmpName = $_FILES['image']['tmp_name'];
 
-    $uploadPath = "uploads/" . $imageName;
+    $uploadPath = "../uploads/" . $imageName;
 
     move_uploaded_file($tmpName, $uploadPath);
 
@@ -35,7 +35,7 @@ if(isset($_POST['submit'])){
         $datetime,
         $place,
         $contact,
-        $uploadPath
+        $imageName
     );
 
     if($result){
