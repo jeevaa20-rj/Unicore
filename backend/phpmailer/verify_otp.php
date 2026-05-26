@@ -21,7 +21,7 @@ if ($result && $result['otp'] == $otp) {
     $update = $conn->prepare("UPDATE users SET is_verified = 1 WHERE email = ?");
     $update->execute([$email]);
 
-    echo "OTP Verified Successfully! 🎉";
+    echo "OTP Verified Successfully! ";
 } else {
-    echo "Invalid OTP ❌";
+    echo "Invalid OTP ";
 }
