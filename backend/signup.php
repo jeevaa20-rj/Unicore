@@ -1,7 +1,7 @@
 <?php
 // signup.php
 
-include 'dbh.class.php';
+include 'config/dbh.class.php';
 include 'signup.class.php';
 
 if(isset($_POST['signup'])){

@@ -1,7 +1,7 @@
 <?php
 // login.php
 
-include 'dbh.class.php';
+include 'config/dbh.class.php';
 include 'login.class.php';
 
 if(isset($_POST['login'])){
