@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config/dbh.class.php';
 
 class Signup extends Dbh {
 

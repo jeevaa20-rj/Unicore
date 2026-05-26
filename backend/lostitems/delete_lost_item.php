@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'dbh.class.php';
+include '../config/dbh.class.php';
 include 'lostitem.class.php';
 
 if(!isset($_SESSION['user_id'])){

@@ -1,6 +1,6 @@
 <?php
 
-include_once 'dbh.class.php'; 
+include_once '../config/dbh.class.php'; 
 
 
 class LostItem extends Dbh {
