@@ -2,21 +2,54 @@ import React, { useState } from 'react';
 
 const Login = ({ onNavigate }) => {
   const [credentials, setCredentials] = useState({ email: '', password: '', rememberMe: false });
+  const [error, setError] = useState('');           // பிழைச் செய்திகளைச் சேமிக்க
+  const [isLoading, setIsLoading] = useState(false);     // லோடிங் அனிமேஷனுக்காக
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setCredentials(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // உண்மையான அங்கீகாரத்திற்குப் பின் டேஷ்போர்டிற்குச் செல்ல:
-    onNavigate('Dashboard');
+    setError('');
+    setIsLoading(true);
+
+    try {
+      // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதையை இங்கே வழங்கவும்
+      const response = await fetch('http://localhost/UniCore/backend/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        // லாகின் வெற்றி பெற்றால் டேஷ்போர்டிற்குச் செல்லவும்
+        onNavigate('Dashboard');
+      } else {
+        // சர்வரில் இருந்து வரும் பிழைச் செய்தியைக் காட்ட (எ.கா: Invalid Email or Password)
+        setError(data.message);
+      }
+    } catch (err) {
+      setError('சர்வர் உடன் இணைக்க முடியவில்லை. இணைய இணைப்பைச் சோதிக்கவும்.');
+      console.error('Login error:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="container-fluid p-0 vh-100 d-flex overflow-hidden bg-white text-dark">
       <div className="row g-0 w-100 h-100">
+        
+        {/* இடது பக்க பேனல் - பிராண்டிங் (UWU Hub) */}
         <div className="col-12 col-md-6 d-none d-md-flex flex-column justify-content-between p-5 text-white" 
              style={{ background: 'linear-gradient(135deg, #5c2d53 0%, #2b1326 100%)' }}>
           <div>
@@ -39,6 +72,7 @@ const Login = ({ onNavigate }) => {
           <div className="text-white-50 small">© 2026 Uva Wellassa University. All rights reserved.</div>
         </div>
 
+        {/* வலது பக்க பேனல் - லாகின் படிவம் */}
         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-4 p-md-5 bg-white">
           <div className="w-100" style={{ maxWidth: '420px' }}>
             <div className="text-center text-md-start mb-4">
@@ -51,6 +85,14 @@ const Login = ({ onNavigate }) => {
               <h2 className="fw-bold text-dark m-0">Welcome back</h2>
               <p className="text-muted small mt-1">Access your academic portal and stay connected.</p>
             </div>
+
+            {/* Bootstrap பிழை அறிவிப்புப் பெட்டி (Error Alert Box) */}
+            {error && (
+              <div className="alert alert-danger py-2 px-3 small d-flex align-items-center gap-2" role="alert" style={{ borderRadius: '8px' }}>
+                <i className="bi bi-exclamation-triangle-fill"></i>
+                <div>{error}</div>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
               <div>
@@ -74,14 +116,27 @@ const Login = ({ onNavigate }) => {
                 </div>
                 <a href="#" className="fw-semibold text-decoration-none" style={{ color: '#5c2d53' }}>Forgot password?</a>
               </div>
-              <button type="submit" className="btn text-white w-100 py-2.5 fw-semibold border-0 shadow-sm mt-2" style={{ backgroundColor: '#5c2d53', borderRadius: '8px' }}>
-                SIGN IN <i className="bi bi-arrow-right ms-1"></i>
+              
+              {/* லோடிங் நிலையைப் பொறுத்து மாறும் சப்மிட் பொத்தான் */}
+              <button type="submit" disabled={isLoading} className="btn text-white w-100 py-2.5 fw-semibold border-0 shadow-sm mt-2" style={{ backgroundColor: '#5c2d53', borderRadius: '8px' }}>
+                {isLoading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    VERIFYING...
+                  </>
+                ) : (
+                  <>
+                    SIGN IN <i className="bi bi-arrow-right ms-1"></i>
+                  </>
+                )}
               </button>
+              
               <div className="text-center mt-3">
                 <span className="text-muted small">Don't have an account? </span>
                 <button type="button" onClick={() => onNavigate('Register')} className="btn btn-link p-0 small fw-bold text-decoration-none ms-1" style={{ color: '#5c2d53' }}>Sign up</button>
               </div>
             </form>
+
           </div>
         </div>
       </div>
