@@ -45,10 +45,15 @@ const Login = ({ onNavigate }) => {
       const data = JSON.parse(text);
 
       if (data.status === "success") {
-        // லாகின் வெற்றி பெற்றால் டேஷ்போர்டிற்குச் செல்லவும்
+       
+        if (credentials.rememberMe) {
+          localStorage.setItem("user", JSON.stringify(data));
+        } else {
+          sessionStorage.setItem("user", JSON.stringify(data));
+        }
         onNavigate("Dashboard");
       } else {
-        // சர்வரில் இருந்து வரும் பிழைச் செய்தியைக் காட்ட (எ.கா: Invalid Email or Password)
+      
         setError(data.message);
       }
     } catch (err) {

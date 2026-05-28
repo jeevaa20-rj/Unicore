@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sidebar = ({ currentTab, setCurrentTab }) => {
   const menuItems = [
-    { name: 'Dashboard', icon: 'bi-grid-1x2' },
+    { name: 'dashboard', icon: 'bi-grid-1x2' },
     { name: 'Peer Learning Session', icon: 'bi-mortarboard' },
     { name: 'Marketplace', icon: 'bi-shop' },
     { name: 'Lost Items', icon: 'bi-search' }, // Matches "Lost & Found" or "Lost Items"
