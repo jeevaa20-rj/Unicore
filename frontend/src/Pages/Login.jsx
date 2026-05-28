@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const Login = ({ onNavigate }) => {
+// 🔥 UPDATED: Added onLoginSuccess to props
+const Login = ({ onNavigate, onLoginSuccess }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -23,34 +24,26 @@ const Login = ({ onNavigate }) => {
     setIsLoading(true);
 
     try {
-      // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதையை இங்கே வழங்கவும்
-      const response = await fetch(
-        "http://localhost/UniCore/backend/login.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
+      // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதை
+      const apiUrl = `${import.meta.env.VITE_API_URL}/login.php`;
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
-
-      //const data = await response.json();
+        credentials: "include",
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      });
 
       // SAFE JSON parsing (prevents crash)
       const text = await response.text();
       const data = JSON.parse(text);
 
       if (data.status === "success") {
-       
-        if (credentials.rememberMe) {
-          localStorage.setItem("user", JSON.stringify(data));
-        } else {
-          sessionStorage.setItem("user", JSON.stringify(data));
-        }
+        // லாகின் வெற்றி பெற்றால் டேஷ்போர்டிற்குச் செல்லவும்
         onNavigate("Dashboard");
       } else {
       
@@ -132,7 +125,7 @@ const Login = ({ onNavigate }) => {
                   style={{ color: "#5c2d53", fontSize: "0.85rem" }}
                 >
                   UniCore{" "}
-                  <span className="text-muted fw-normal">UWU Dashboard</span>
+                  <span className="text-muted fw-normal"> Dashboard</span>
                 </h6>
               </div>
               <h2 className="fw-bold text-dark m-0">Welcome back</h2>
