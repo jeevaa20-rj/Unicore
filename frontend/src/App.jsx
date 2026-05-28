@@ -15,7 +15,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 function App() {
   const [currentTab, setCurrentTab] = useState("Login");
 
-  const [userEmail, setUserEmail] = useState("alex.t@uwu.ac.lk");
+  const [userEmail, setUserEmail] = useState("");
 
   // LOGIN SCREEN
   if (currentTab === "Login") {

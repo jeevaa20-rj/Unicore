@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once __DIR__ . '/../config/dbh.class.php';
 
@@ -8,30 +7,36 @@ class Login extends Dbh
 {
     public function getUser($email, $password)
     {
-        // Connect DB
-        $conn = $this->connect();
+        $email = strtolower(trim($email));
 
-        // If DB connection failed
-        if (!$conn) {
+        if ($email === '' || $password === '') {
             return [
                 "status" => "error",
-                "message" => "Database connection failed"
+                "message" => "Email and password required",
             ];
         }
 
-        // SQL query (prepared statement for security)
-        $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
+        $conn = $this->connect();
+
+        if (!$conn) {
+            return [
+                "status" => "error",
+                "message" => "Database connection failed",
+            ];
+        }
+
+        // Newest row wins when the same email was registered more than once
+        $sql = "SELECT * FROM users WHERE email = ? ORDER BY id DESC LIMIT 1";
 
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
             return [
                 "status" => "error",
-                "message" => "Query preparation failed"
+                "message" => "Query preparation failed",
             ];
         }
 
-        // Bind email parameter
         $stmt->bind_param("s", $email);
 
         // Execute query
@@ -56,15 +61,19 @@ class Login extends Dbh
         // Fetch user data
         $user = $result->fetch_assoc();
 
-        // Verify password (hashed password)
-        if (!password_verify($password, $user['password'])) {
+        $storedHash = $user['password'] ?? '';
+
+        if ($storedHash === '' || !password_verify($password, $storedHash)) {
             return [
                 "status" => "error",
-                "message" => "Invalid password"
+                "message" => "Invalid password",
             ];
         }
 
-        // Save session
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['email'] = $user['email'];
 

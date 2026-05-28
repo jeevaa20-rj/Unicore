@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Register = ({ onNavigate }) => {
+const Register = ({ onNavigate, onRegisterSuccess }) => {
   // பயனர் வகையை நிர்வகிக்க (Student அல்லது Staff)
   const [role, setRole] = useState("student");
 
@@ -98,8 +98,12 @@ const Register = ({ onNavigate }) => {
       const result = await response.json();
 
       if (result.status === "success") {
-        // வெற்றிகரமாக முடிந்ததும் OTP மற்றும் மின்னஞ்சலுடன் அடுத்த பக்கத்திற்குச் செல்லும்
-        onNavigate("OtpVerification", formData.universityEmail);
+        const registeredEmail = formData.universityEmail.trim().toLowerCase();
+        if (onRegisterSuccess) {
+          onRegisterSuccess(registeredEmail);
+        } else {
+          onNavigate("OtpVerification");
+        }
       } else {
         alert(result.message);
       }
