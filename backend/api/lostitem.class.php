@@ -17,7 +17,7 @@ class LostItem extends Dbh {
     $stmt = $conn->prepare($sql);
 
     if(!$stmt){
-        die("Prepare Failed: " . $conn->error);
+    return false;
     }
 
     $stmt->bind_param(
@@ -38,6 +38,10 @@ class LostItem extends Dbh {
 
         $conn = $this->connect();
 
+        if (!$conn) {
+            return false;
+        }
+
         $sql = "SELECT * FROM lost_items ORDER BY created_at DESC";
 
         $result = $conn->query($sql);
@@ -49,18 +53,22 @@ class LostItem extends Dbh {
     public function deleteItem($id, $user_id){
 
         $conn = $this->connect();
+        if (!$conn) {
+            return false;
+        }
 
         $sql = "DELETE FROM lost_items WHERE id = ? AND user_id = ?";
 
         $stmt = $conn->prepare($sql);
 
         if(!$stmt){
-            die("Prepare Failed: " . $conn->error);
+            return false;
         }
 
         $stmt->bind_param("ii", $id, $user_id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 }
 ?>

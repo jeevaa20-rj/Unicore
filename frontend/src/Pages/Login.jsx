@@ -33,7 +33,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
         },
         credentials: "include",
         body: JSON.stringify({
-          email: credentials.email,
+          email: credentials.email.trim().toLowerCase(),
           password: credentials.password,
         }),
       });
@@ -43,15 +43,10 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
       const data = JSON.parse(text);
 
       if (data.status === "success") {
-        // 🔥 UPDATED FOR ROLE-BASED NAVIGATION
-        // App.jsx இல் உள்ள ஆன்-லாகின் செயல்பாட்டிற்கு மின்னஞ்சலை அனுப்புகிறோம்
-        if (onLoginSuccess) {
-          onLoginSuccess(credentials.email);
-        } else {
-          onNavigate("Dashboard");
-        }
+        // லாகின் வெற்றி பெற்றால் டேஷ்போர்டிற்குச் செல்லவும்
+        onNavigate("Dashboard");
       } else {
-        // சர்வரில் இருந்து வரும் பிழைச் செய்தியைக் காட்ட (எ.கா: Invalid Email or Password)
+      
         setError(data.message);
       }
     } catch (err) {
