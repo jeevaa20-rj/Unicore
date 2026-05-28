@@ -23,7 +23,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
-require_once __DIR__ . '/config/mail_config.php';
+require_once __DIR__ . '/../config/mail_config.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(["status" => "error", "message" => "Method not allowed"]);
     exit;
@@ -125,12 +125,12 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'SMTP_USER';
-    $mail->Password   = 'SMTP_PASS'; // App Password
+    $mail->Username   = SMTP_USER;
+    $mail->Password   = SMTP_PASS; // App Password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
 
-    $mail->setFrom('nelanelaxshan@gmail.com', 'UniCore System');
+    $mail->setFrom(SMTP_USER, 'UniCore System');
     $mail->addAddress($email);
 
     $mail->isHTML(true);
