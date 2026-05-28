@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const Login = ({ onNavigate }) => {
+// 🔥 UPDATED: Added onLoginSuccess to props
+const Login = ({ onNavigate, onLoginSuccess }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -23,7 +24,7 @@ const Login = ({ onNavigate }) => {
     setIsLoading(true);
 
     try {
-      // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதையை இங்கே வழங்கவும்
+      // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதை
       const response = await fetch(
         "http://localhost/UniCore/backend/login.php",
         {
@@ -38,15 +39,18 @@ const Login = ({ onNavigate }) => {
         },
       );
 
-      //const data = await response.json();
-
       // SAFE JSON parsing (prevents crash)
       const text = await response.text();
       const data = JSON.parse(text);
 
       if (data.status === "success") {
-        // லாகின் வெற்றி பெற்றால் டேஷ்போர்டிற்குச் செல்லவும்
-        onNavigate("Dashboard");
+        // 🔥 UPDATED FOR ROLE-BASED NAVIGATION
+        // App.jsx இல் உள்ள ஆன்-லாகின் செயல்பாட்டிற்கு மின்னஞ்சலை அனுப்புகிறோம்
+        if (onLoginSuccess) {
+          onLoginSuccess(credentials.email);
+        } else {
+          onNavigate("Dashboard");
+        }
       } else {
         // சர்வரில் இருந்து வரும் பிழைச் செய்தியைக் காட்ட (எ.கா: Invalid Email or Password)
         setError(data.message);
@@ -127,7 +131,7 @@ const Login = ({ onNavigate }) => {
                   style={{ color: "#5c2d53", fontSize: "0.85rem" }}
                 >
                   UniCore{" "}
-                  <span className="text-muted fw-normal">UWU Dashboard</span>
+                  <span className="text-muted fw-normal"> Dashboard</span>
                 </h6>
               </div>
               <h2 className="fw-bold text-dark m-0">Welcome back</h2>
