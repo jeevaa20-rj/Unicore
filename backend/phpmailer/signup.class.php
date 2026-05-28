@@ -3,12 +3,14 @@ require_once __DIR__ . '/config/dbh.class.php';
 
 class Signup extends Dbh
 {
-
     // $role மற்றும் $identity அளவுருக்கள் (Parameters) புதிதாகச் சேர்க்கப்பட்டுள்ளன
     public function setUser($firstname, $lastname, $phone, $role, $identity, $email, $password)
     {
-
         $conn = $this->connect();
+
+        if (!$conn) {
+            throw new Exception("Database connection failed");
+        }
 
         // enrollment_number என்பதற்குப் பதிலாக பொதுவான identity_no மற்றும் role_type சேர்க்கப்பட்டுள்ளது
         $sql = "INSERT INTO users(first_name, last_name, phone_number, role_type, identity_no, email, password)
@@ -17,7 +19,7 @@ class Signup extends Dbh
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            die("Prepare Failed: " . $conn->error);
+            throw new Exception("Prepare Failed: " . $conn->error);
         }
 
         $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
@@ -35,9 +37,11 @@ class Signup extends Dbh
         );
 
         if ($stmt->execute()) {
+            $stmt->close();
+            $conn->close();
             return true;
         } else {
-            die("Execute Failed: " . $stmt->error);
+            throw new Exception("Execute Failed: " . $stmt->error);
         }
     }
 }

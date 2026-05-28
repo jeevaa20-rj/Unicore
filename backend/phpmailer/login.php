@@ -2,28 +2,31 @@
 
 error_reporting(0);
 ini_set('display_errors', 0);
+
+// Set Content-Type FIRST
 header("Content-Type: application/json; charset=UTF-8");
 
-// Allow JSON response only
-header("Content-Type: application/json; charset=UTF-8");
-
-// CORS Configuration (React ports)
+// ✅ CORS Configuration - Allow Frontend to Access API
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 $allowedOrigins = [
     'http://localhost:5173',
-    'http://localhost:5175'
+    'http://localhost:5175',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5175'
 ];
 
-// Allow only trusted origins
+// Set CORS headers
 if (in_array($origin, $allowedOrigins)) {
     header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Credentials: true");
 }
 
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Max-Age: 86400");
 
-// Handle preflight request
+// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();

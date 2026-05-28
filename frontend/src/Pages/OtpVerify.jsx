@@ -11,14 +11,13 @@ const OtpVerify = ({ email, onVerificationSuccess, onNavigate }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "http://localhost/UniCore/backend/verify-otp.php",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ otp: otp }),
-        },
-      );
+      const apiUrl = `${import.meta.env.VITE_API_URL}/verify-otp.php`;
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ otp: otp }),
+      });
 
       const data = await response.json();
 

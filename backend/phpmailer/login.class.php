@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/config/dbh.class.php';
+require_once __DIR__ . '/../config/dbh.class.php';
 
 // Login logic class
 class Login extends Dbh
