@@ -25,19 +25,18 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
 
     try {
       // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதை
-      const response = await fetch(
-        "http://localhost/UniCore/backend/login.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
+      const apiUrl = `${import.meta.env.VITE_API_URL}/login.php`;
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      });
 
       // SAFE JSON parsing (prevents crash)
       const text = await response.text();

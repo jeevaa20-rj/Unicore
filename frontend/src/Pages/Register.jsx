@@ -87,9 +87,11 @@ const Register = ({ onNavigate }) => {
 
     try {
       // உங்களின் பின்தள PHP முகவரியை (signup.php) இங்கே இணைக்கவும்
-      const response = await fetch("http://localhost/unicore_api/signup.php", {
+      const apiUrl = `${import.meta.env.VITE_API_URL}/signup.php`;
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(payload),
       });
 
