@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader (created by composer, not included with PHPMailer)
 require 'vendor/autoload.php';
+require_once __DIR__ . '/../config/mail_config.php';
 session_start();
 
 $email = $_POST['email'];
@@ -23,13 +24,13 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'nelanelaxshan@gmail.com';                     //SMTP username
-    $mail->Password   = 'yqyflurcewldkwix';                               //SMTP password
+    $mail->Username   = SMTP_USER;                     //SMTP username
+    $mail->Password   = SMTP_PASS;                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('nelanelaxshan@gmail.com', 'registartion system');
+    $mail->setFrom(SMTP_USER, 'registartion system');
     $mail->addAddress($_SESSION['email']);     //Add a recipient
     //  $mail->addAddress('Arani');               //Name is optional
     // $mail->addReplyTo('info@example.com', 'Information');
