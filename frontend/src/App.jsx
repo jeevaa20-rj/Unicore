@@ -3,7 +3,7 @@ import Sidebar from "./components/Dashboard/Sidebar";
 import TopNavbar from "./components/Dashboard/TopNavbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword"; // 👈 புதிய கோப்பு இறக்குமதி செய்யப்பட்டுள்ளது
+import ForgotPassword from "./pages/ForgotPassword";
 import OtpVerification from "./pages/OtpVerify";
 import AdminDashboard from "./pages/AdminDashboard";
 import LostItemsDashboard from "./pages/LostItemsDashboard";

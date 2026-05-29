@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const MarketplaceFilters = () => {
-  const categories = ['All Items', 'Books', 'Electronics', 'Lab Equipment', 'Clothing'];
-  const [activeTab, setActiveTab] = useState('All Items');
+  const categories = [
+    "All Items",
+    "Books",
+    "Electronics",
+    "Lab Equipment",
+    "Clothing",
+  ];
+  const [activeTab, setActiveTab] = useState("All Items");
 
   return (
     <div className="d-flex flex-wrap gap-2 mb-4">
@@ -14,11 +20,11 @@ const MarketplaceFilters = () => {
             onClick={() => setActiveTab(category)}
             className="btn btn-sm px-3 py-1.5 fw-medium"
             style={{
-              borderRadius: '20px',
-              backgroundColor: isActive ? '#b5009b' : '#e9ecef',
-              color: isActive ? '#fff' : '#495057',
-              border: 'none',
-              fontSize: '0.85rem'
+              borderRadius: "20px",
+              backgroundColor: isActive ? "#b5009b" : "#e9ecef",
+              color: isActive ? "#fff" : "#495057",
+              border: "none",
+              fontSize: "0.85rem",
             }}
           >
             {category}
