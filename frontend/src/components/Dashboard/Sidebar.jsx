@@ -1,14 +1,13 @@
 import React from "react";
 
-// 🔥 UPDATED: userRole ப்ராப்ஸாக உள்ளே கொண்டுவரப்பட்டுள்ளது
 const Sidebar = ({ currentTab, setCurrentTab, userRole }) => {
   const menuItems = [
-    { name: 'Dashboard', icon: 'bi-grid-1x2' },
-    { name: 'Peer Learning Session', icon: 'bi-mortarboard' },
-    { name: 'Marketplace', icon: 'bi-shop' },
-    { name: 'Lost Items', icon: 'bi-search' }, // Matches "Lost & Found" or "Lost Items"
-    { name: 'Notes Sharing', icon: 'bi-file-earmark-text' },
-    { name: 'Settings', icon: 'bi-gear-fill' },
+    { name: "Dashboard", icon: "bi-grid-1x2" },
+    { name: "Lost Items", icon: "bi-search" },
+    { name: "Marketplace", icon: "bi-shop" },
+    { name: "Notes Sharing", icon: "bi-file-earmark-text" },
+    { name: "Peer Learning", icon: "bi-Sessionmortarboard" },
+    { name: "Settings", icon: "bi-gear-fill" },
   ];
 
   // 🔥 FILTER LOGIC: பயனர் 'staff' ஆக இருந்தால், Marketplace மற்றும் Lost Items மட்டுமே காண்பிக்கப்படும்
