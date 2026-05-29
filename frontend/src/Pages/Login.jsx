@@ -33,7 +33,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
         },
         credentials: "include",
         body: JSON.stringify({
-          email: credentials.email,
+          email: credentials.email.trim().toLowerCase(),
           password: credentials.password,
         }),
       });
