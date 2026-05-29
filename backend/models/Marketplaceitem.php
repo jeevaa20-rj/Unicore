@@ -1,118 +1,62 @@
 <?php
-class Marketplaceitem
+require_once __DIR__ . '/../config/dbh_class.php';
+
+class MarketplaceItem extends Dbh
 {
-    private $conn;
-    private $table = "marketplace_items";
-    public $id;
-    public $item_name;
-    public $brand;
-    public $used_time;
-    public $price;
-    public $location;
-    public $contact_number;
-    public $description;
-    public $created_by;
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
-    public function createItem()
-    {
-        $query = "INSERT INTO " . $this->table . "
-    (item_name, brand, used_time, price, location, contact_number, description, created_by)
-    VALUES
-    (:item_name, :brand, :used_time, :price, :location, :contact_number, :description, :created_by)";
 
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":item_name", $this->item_name);
-        $stmt->bindParam(":brand", $this->brand);
-
-        if ($this->used_time === null || $this->used_time === '') {
-            $stmt->bindValue(":used_time", null, PDO::PARAM_NULL);
-        } else {
-            $stmt->bindValue(":used_time", $this->used_time, PDO::PARAM_STR);
-        }
-
-        $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":location", $this->location);
-        $stmt->bindParam(":contact_number", $this->contact_number);
-        $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":created_by", $this->created_by);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
-    }
+    // Get all items
     public function getAllItems()
     {
-
-        $query = "SELECT * FROM " . $this->table . " ORDER BY created_at DESC";
-
-        $stmt = $this->conn->prepare($query);
-
+        $sql = "SELECT * FROM marketplace_items ORDER BY id DESC";
+        $stmt = $this->connect()->prepare($sql);
         $stmt->execute();
-
-        return $stmt;
+        return $stmt->fetchAll();
     }
 
-    // Update Item
-    public function updateItem()
+    // Add item
+    public function addItem($data)
     {
+        $sql = "INSERT INTO marketplace_items 
+        (user_id, item_name, brand, used_time, price, location, contact) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        $query = "UPDATE " . $this->table . "
-
-        SET
-            item_name = :item_name,
-            brand = :brand,
-            used_time = :used_time,
-            price = :price,
-            location = :location,
-            contact_number = :contact_number,
-            description = :description
-
-        WHERE id = :id
-        AND created_by = :created_by";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":item_name", $this->item_name);
-        $stmt->bindParam(":brand", $this->brand);
-        $stmt->bindParam(":used_time", $this->used_time);
-        $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":location", $this->location);
-        $stmt->bindParam(":contact_number", $this->contact_number);
-        $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":id", $this->id);
-        $stmt->bindParam(":created_by", $this->created_by);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([
+            $data['user_id'],
+            $data['item_name'],
+            $data['brand'],
+            $data['used_time'],
+            $data['price'],
+            $data['location'],
+            $data['contact']
+        ]);
     }
 
-    // Delete Item
-    public function deleteItem()
+    // Update item (only owner)
+    public function updateItem($id, $user_id, $data)
     {
+        $sql = "UPDATE marketplace_items 
+                SET item_name=?, brand=?, used_time=?, price=?, location=?, contact=?
+                WHERE id=? AND user_id=?";
 
-        $query = "DELETE FROM " . $this->table . "
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([
+            $data['item_name'],
+            $data['brand'],
+            $data['used_time'],
+            $data['price'],
+            $data['location'],
+            $data['contact'],
+            $id,
+            $user_id
+        ]);
+    }
 
-        WHERE id = :id
-        AND created_by = :created_by";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":id", $this->id);
-        $stmt->bindParam(":created_by", $this->created_by);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+    // Delete item (only owner)
+    public function deleteItem($id, $user_id)
+    {
+        $sql = "DELETE FROM marketplace_items WHERE id=? AND user_id=?";
+        $stmt = $this->connect()->prepare($sql);
+        return $stmt->execute([$id, $user_id]);
     }
 }

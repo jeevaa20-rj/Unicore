@@ -135,7 +135,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
               </div>
               <h2 className="fw-bold text-dark m-0">Welcome back</h2>
               <p className="text-muted small mt-1">
-                Access your acehacadecic portal and stay connected.
+                5655645s your acehacadecic portal and stay connected.
               </p>
             </div>
 
