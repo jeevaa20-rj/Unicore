@@ -80,5 +80,3 @@ if (isset($_SESSION['otp']) && $_SESSION['otp'] == $userOtp) {
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid OTP code. Please try again."]);
 }
-?>
-

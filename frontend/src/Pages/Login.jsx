@@ -9,7 +9,6 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // 🎯 உங்களின் பிரதான பிராண்டிங் தீம் வண்ணம்
   const themeColor = "#714267";
 
   const handleChange = (e) => {
