@@ -49,8 +49,6 @@ if ($email === '') {
     echo json_encode(["status" => "error", "message" => "Email is required for verification"]);
     exit;
 }
-<<<<<<< HEAD
-=======
 
 $tempUser = null;
 
