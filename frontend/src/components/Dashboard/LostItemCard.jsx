@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
 const LostItemCard = ({ item, onDelete }) => {
-  const imageSrc = item.item_image || 'https://via.placeholder.com/300x160';
+  const imageSrc = item.item_image || "https://via.placeholder.com/300x160";
   const contact = item.contact_number?.trim();
 
   return (
     <div className="col-12 col-sm-6 col-md-4 col-xl-3">
       <div
         className="card h-100 border-0 shadow-sm overflow-hidden"
-        style={{ borderRadius: '16px', borderBottom: '3px solid #b5009b' }}
+        style={{ borderRadius: "16px", borderBottom: "3px solid #b5009b" }}
       >
-        <div className="position-relative" style={{ height: '160px' }}>
+        <div className="position-relative" style={{ height: "160px" }}>
           <img
             src={imageSrc}
             alt={item.item_name}
@@ -18,7 +18,7 @@ const LostItemCard = ({ item, onDelete }) => {
           />
           <span
             className="position-absolute top-0 start-0 m-2 badge bg-success bg-opacity-75 text-white"
-            style={{ fontSize: '0.7rem' }}
+            style={{ fontSize: "0.7rem" }}
           >
             Recently Reported
           </span>
@@ -40,9 +40,9 @@ const LostItemCard = ({ item, onDelete }) => {
 
             {contact ? (
               <a
-                href={`tel:${contact.replace(/\s/g, '')}`}
+                href={`tel:${contact.replace(/\s/g, "")}`}
                 className="btn btn-outline-primary w-100 py-2 mb-2 fw-medium btn-sm text-decoration-none"
-                style={{ borderColor: '#b5009b', color: '#b5009b' }}
+                style={{ borderColor: "#b5009b", color: "#b5009b" }}
               >
                 <i className="bi bi-telephone me-2"></i>
                 {contact}

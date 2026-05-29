@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
 
 const SystemHealth = () => {
   return (
-  <div className="card border-0 shadow-sm p-4" style={{ borderRadius: '12px', backgroundColor: '#f4f6f9' }}>
-      <span className="text-uppercase fw-bold text-muted mb-3 d-block" style={{ fontSize: '0.7rem' }}>System Health</span>
+    <div
+      className="card border-0 shadow-sm p-4"
+      style={{ borderRadius: "12px", backgroundColor: "#f4f6f9" }}
+    >
+      <span
+        className="text-uppercase fw-bold text-muted mb-3 d-block"
+        style={{ fontSize: "0.7rem" }}
+      >
+        System Health
+      </span>
       <div className="d-flex flex-column gap-2">
         <div className="d-flex justify-content-between align-items-center py-1 border-bottom border-light">
           <span className="small text-muted">Database Latency</span>
@@ -19,7 +27,7 @@ const SystemHealth = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SystemHealth
+export default SystemHealth;

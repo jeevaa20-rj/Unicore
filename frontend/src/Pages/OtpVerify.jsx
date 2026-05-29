@@ -30,7 +30,7 @@ const OtpVerify = ({ email, onVerificationSuccess, onNavigate }) => {
         throw new Error(
           response.ok
             ? "Invalid server response."
-            : `Server error (${response.status}). Check Apache/PHP logs.`
+            : `Server error (${response.status}). Check Apache/PHP logs.`,
         );
       }
 
