@@ -16,10 +16,23 @@ const OtpVerify = ({ email, onVerificationSuccess, onNavigate }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ otp: otp }),
+        body: JSON.stringify({
+          otp: otp.trim(),
+          email: email?.trim().toLowerCase(),
+        }),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(
+          response.ok
+            ? "Invalid server response."
+            : `Server error (${response.status}). Check Apache/PHP logs.`
+        );
+      }
 
       if (data.status === "success") {
         setMessage({

@@ -121,18 +121,32 @@ for ($i = 0; $i < $len - 2; $i++) {
     }
 }
 
-// 5. 6 இலக்க OTP உருவாக்குதல் மற்றும் செஷனில் விவரங்களைச் சேமித்தல்
-$otp = random_int(100000, 999999);
-$_SESSION['temp_user'] = [
+// 5. 6-digit OTP — stored in DB (reliable across Vite + Apache) and session (fallback)
+$otp = (string) random_int(100000, 999999);
+$tempUser = [
     "firstname"  => $firstname,
     "lastname"   => $lastname,
     "phone"      => $phone,
     "role"       => $role,
     "identity"   => $identity,
     "email"      => $email,
-    "password"   => $password
+    "password"   => $password,
 ];
+
+$_SESSION['temp_user'] = $tempUser;
 $_SESSION['otp'] = $otp;
+
+require_once __DIR__ . '/signup.class.php';
+try {
+    $signupStore = new Signup();
+    $signupStore->savePendingOtp($email, $otp, $tempUser);
+} catch (Exception $e) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Could not save verification code. Please try again.",
+    ]);
+    exit;
+}
 
 // 6. PHPMailer மூலம் மின்னஞ்சல் அனுப்புதல்
 $mail = new PHPMailer(true);
