@@ -1,13 +1,12 @@
 import React from "react";
 
-// 🔥 UPDATED: userRole ப்ராப்ஸாக உள்ளே கொண்டுவரப்பட்டுள்ளது
 const Sidebar = ({ currentTab, setCurrentTab, userRole }) => {
   const menuItems = [
     { name: "Dashboard", icon: "bi-grid-1x2" },
-    { name: "Peer Learning Session", icon: "bi-mortarboard" },
-    { name: "Marketplace", icon: "bi-shop" },
     { name: "Lost Items", icon: "bi-search" },
+    { name: "Marketplace", icon: "bi-shop" },
     { name: "Notes Sharing", icon: "bi-file-earmark-text" },
+    { name: "Peer Learning", icon: "bi-Sessionmortarboard" },
     { name: "Settings", icon: "bi-gear-fill" },
   ];
 

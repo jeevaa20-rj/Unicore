@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 
-// 🔥 UPDATED: Added onLoginSuccess to props
 const Login = ({ onNavigate, onLoginSuccess }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
-  const [error, setError] = useState(""); // பிழைச் செய்திகளைச் சேமிக்க
-  const [isLoading, setIsLoading] = useState(false); // லோடிங் அனிமேஷனுக்காக
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 🎯 உங்களின் பிரதான பிராண்டிங் தீம் வண்ணம்
+  const themeColor = "#714267";
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,7 +26,6 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
     setIsLoading(true);
 
     try {
-      // உங்கள் XAMPP / WAMP சர்வரில் உள்ள login.php இன் சரியான பாதை
       const apiUrl = `${import.meta.env.VITE_API_URL}/login.php`;
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -38,20 +39,16 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
         }),
       });
 
-      // SAFE JSON parsing (prevents crash)
       const text = await response.text();
       const data = JSON.parse(text);
 
       if (data.status === "success") {
-        // 🔥 UPDATED FOR ROLE-BASED NAVIGATION
-        // App.jsx இல் உள்ள ஆன்-லாகின் செயல்பாட்டிற்கு மின்னஞ்சலை அனுப்புகிறோம்
         if (onLoginSuccess) {
           onLoginSuccess(credentials.email);
         } else {
           onNavigate("Dashboard");
         }
       } else {
-        // சர்வரில் இருந்து வரும் பிழைச் செய்தியைக் காட்ட (எ.கா: Invalid Email or Password)
         setError(data.message);
       }
     } catch (err) {
@@ -65,11 +62,11 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
   return (
     <div className="container-fluid p-0 vh-100 d-flex overflow-hidden bg-white text-dark">
       <div className="row g-0 w-100 h-100">
-        {/* இடது பக்க பேனல் - பிராண்டிங் (UWU Hub) */}
+        {/* 🌟 இடது பக்க பேனல் - பிராண்டிங் (UniCore Theme) */}
         <div
           className="col-12 col-md-6 d-none d-md-flex flex-column justify-content-between p-5 text-white"
           style={{
-            background: "linear-gradient(135deg, #5c2d53 0%, #2b1326 100%)",
+            background: `linear-gradient(135deg, ${themeColor} 0%, #3a1634 100%)`,
           }}
         >
           <div>
@@ -80,13 +77,16 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
               >
                 <i
                   className="bi bi-mortarboard-fill fs-5"
-                  style={{ color: "#5c2d53" }}
+                  style={{ color: themeColor }}
                 ></i>
               </div>
               <h4 className="m-0 fw-bold">UniCore</h4>
             </div>
-            <small className="text-white-50">UWU Dashboard Hub</small>
+            <small className="text-white-50">
+              Smart Campus Utility Hub for UWU
+            </small>
           </div>
+
           <div className="my-auto py-5" style={{ maxWidth: "450px" }}>
             <h1 className="fw-bold mb-3 display-6">
               Empowering Academic Excellence
@@ -105,12 +105,13 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
               </span>
             </div>
           </div>
+
           <div className="text-white-50 small">
             © 2026 Uva Wellassa University. All rights reserved.
           </div>
         </div>
 
-        {/* வலது பக்க பேனல் - லாகின் படிவம் */}
+        {/* 🌟 வலது பக்க பேனல் - லாகின் படிவம் */}
         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-4 p-md-5 bg-white">
           <div className="w-100" style={{ maxWidth: "420px" }}>
             <div className="text-center text-md-start mb-4">
@@ -118,7 +119,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
                 <div
                   className="p-1 rounded text-white d-flex align-items-center justify-content-center"
                   style={{
-                    backgroundColor: "#5c2d53",
+                    backgroundColor: themeColor,
                     width: "32px",
                     height: "32px",
                   }}
@@ -127,7 +128,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
                 </div>
                 <h6
                   className="m-0 fw-bold text-uppercase tracking-wider"
-                  style={{ color: "#5c2d53", fontSize: "0.85rem" }}
+                  style={{ color: themeColor, fontSize: "0.85rem" }}
                 >
                   UniCore{" "}
                   <span className="text-muted fw-normal"> Dashboard</span>
@@ -139,7 +140,6 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
               </p>
             </div>
 
-            {/* Bootstrap பிழை அறிவிப்புப் பெட்டி (Error Alert Box) */}
             {error && (
               <div
                 className="alert alert-danger py-2 px-3 small d-flex align-items-center gap-2"
@@ -175,6 +175,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
                   />
                 </div>
               </div>
+
               <div>
                 <label
                   className="form-label text-muted fw-bold small text-uppercase"
@@ -198,6 +199,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
                   />
                 </div>
               </div>
+
               <div
                 className="d-flex justify-content-between align-items-center my-1"
                 style={{ fontSize: "0.8rem" }}
@@ -218,21 +220,23 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
                     Remember me
                   </label>
                 </div>
-                <a
-                  href="#"
-                  className="fw-semibold text-decoration-none"
-                  style={{ color: "#5c2d53" }}
+
+                {/* 🔗 திருத்தப்பட்ட பகுதி: Forgot Password நிகழ்வு இணைக்கப்பட்டுள்ளது */}
+                <button
+                  type="button"
+                  onClick={() => onNavigate("ForgotPassword")}
+                  className="btn btn-link p-0 small fw-semibold text-decoration-none border-0 bg-transparent"
+                  style={{ color: themeColor }}
                 >
                   Forgot password?
-                </a>
+                </button>
               </div>
 
-              {/* லோடிங் நிலையைப் பொறுத்து மாறும் சப்மிட் பொத்தான் */}
               <button
                 type="submit"
                 disabled={isLoading}
                 className="btn text-white w-100 py-2.5 fw-semibold border-0 shadow-sm mt-2"
-                style={{ backgroundColor: "#5c2d53", borderRadius: "8px" }}
+                style={{ backgroundColor: themeColor, borderRadius: "8px" }}
               >
                 {isLoading ? (
                   <>
@@ -258,7 +262,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
                   type="button"
                   onClick={() => onNavigate("Register")}
                   className="btn btn-link p-0 small fw-bold text-decoration-none ms-1"
-                  style={{ color: "#5c2d53" }}
+                  style={{ color: themeColor }}
                 >
                   Sign up
                 </button>
