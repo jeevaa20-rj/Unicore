@@ -61,7 +61,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
   return (
     <div className="container-fluid p-0 vh-100 d-flex overflow-hidden bg-white text-dark">
       <div className="row g-0 w-100 h-100">
-        {/* 🌟 இடது பக்க பேனல் - பிராண்டிங் (UniCore Theme) */}
+        {/*  */}
         <div
           className="col-12 col-md-6 d-none d-md-flex flex-column justify-content-between p-5 text-white"
           style={{
@@ -110,7 +110,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
           </div>
         </div>
 
-        {/* 🌟 வலது பக்க பேனல் - லாகின் படிவம் */}
+        {/*            */}
         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-4 p-md-5 bg-white">
           <div className="w-100" style={{ maxWidth: "420px" }}>
             <div className="text-center text-md-start mb-4">
@@ -135,7 +135,7 @@ const Login = ({ onNavigate, onLoginSuccess }) => {
               </div>
               <h2 className="fw-bold text-dark m-0">Welcome back</h2>
               <p className="text-muted small mt-1">
-                Access your acehacadecic portal and stay connected.
+                 your acedamic portal and stay connected.
               </p>
             </div>
 
