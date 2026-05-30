@@ -10,8 +10,7 @@ import LostItemsDashboard from "./pages/LostItemsDashboard";
 import MarketplaceDashboard from "./pages/MarketplaceDashboard";
 import SettingsDashboard from "./pages/SettingsDashboard";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 function App() {
   const [currentTab, setCurrentTab] = useState("Login");
